@@ -31,13 +31,13 @@ Automate the assessment of mental health symptoms and provide guidance using mul
 
  # Algorithm Overview
 ### Step-by-Step Algorithm
-Set Up API Integrations:
+1.Set Up API Integrations:
 Install libraries and configure API keys for ChatGPT, Claude, and Gemini.
 
-Input Query (Stress & Anxiety Related):
+2.Input Query (Stress & Anxiety Related):
 Accept mental health-related data like stress level, sleeping habits, and emotional state.
 
-Format Prompts:
+3.Format Prompts:
 
 Empathy Prompt
 
@@ -45,16 +45,16 @@ Table Format Prompt
 
 Fill-in-the-Blank Prompt
 
-Send Prompts to AI Tools
+4.Send Prompts to AI Tools
 
-Receive & Parse Responses
+5.Receive & Parse Responses
 
-Compare Outputs:
+6.Compare Outputs:
 Analyze each response for empathy, simplicity, and helpfulness.
 
-Generate Actionable Insights
+7.Generate Actionable Insights
 
-Display Final Report
+8.Display Final Report
 
 # Prompt Types
 1. Empathy Prompt
@@ -62,11 +62,13 @@ Prompt:
 "I’ve been feeling very anxious, having trouble sleeping, and feel overwhelmed most of the time. What should I do?"
 
 2. Tabular Format Prompt
+
 | Symptom          | Severity |
 | ---------------- | -------- |
 | Trouble Sleeping | High     |
 | Appetite Loss    | Medium   |
 | Feeling Hopeless | High     |
+
 
 
 Query:
