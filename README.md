@@ -13,11 +13,11 @@ Experiment the persona pattern as a mental health advisor for stress and anxiety
 # Objective
 To write and implement Python code that interacts with multiple AI tools (such as OpenAI's ChatGPT, Anthropic's Claude, Google Gemini) using their APIs. The system aims to:
 
-Submit a common mental health-related prompt
+->Submit a common mental health-related prompt
 
-Compare the AI responses
+->Compare the AI responses
 
-Generate actionable insights based on evaluation metrics (empathy, clarity, relevance, simplicity)
+->Generate actionable insights based on evaluation metrics (empathy, clarity, relevance, simplicity)
 
 # Use Case
 Mental Health Support:
@@ -39,11 +39,11 @@ Accept mental health-related data like stress level, sleeping habits, and emotio
 
 3.Format Prompts:
 
-Empathy Prompt
+->Straightforward Prompt
 
-Table Format Prompt
+->Table Format Prompt
 
-Fill-in-the-Blank Prompt
+->Fill-in-the-Blank Prompt
 
 4.Send Prompts to AI Tools
 
@@ -57,9 +57,11 @@ Analyze each response for empathy, simplicity, and helpfulness.
 8.Display Final Report
 
 # Prompt Types
-1. Empathy Prompt
+1.Straightforward Prompt:
+
 Prompt:
-"I’ve been feeling very anxious, having trouble sleeping, and feel overwhelmed most of the time. What should I do?"
+"List the possible medical conditions associated with the following symptoms: persistent sadness, low energy, insomnia, and lack of focus for more than two weeks. Also suggest standard treatments."
+
 
 2. Tabular Format Prompt
 
@@ -69,21 +71,21 @@ Prompt:
 | Appetite Loss    | Medium   |
 | Feeling Hopeless | High     |
 
-
-
 Query:
 "Based on this table, what mental health concern might this suggest, and what steps should be taken?"
 
 3. Fill-in-the-Blank Prompt
+
 Prompt:
 "Someone who feels anxious and unable to focus due to constant overthinking is likely experiencing ______."
 
 ###  Example Queries & Responses
-| **AI Tool** | **Response to Empathy Prompt**                                                                                   |
-| ----------- | ---------------------------------------------------------------------------------------------------------------- |
-| ChatGPT     | It sounds like you're going through a tough time. Consider seeing a therapist and practicing mindfulness.        |
-| Claude      | I understand how difficult it can be. Try journaling, connecting with others, and speaking with a counselor.     |
-| Gemini      | Anxiety symptoms like yours should be addressed. Deep breathing and routine can help. Seek professional support. |
+| AI Tool     | Response                                                                                                                                              |
+| ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **ChatGPT** | Possible diagnosis: Major Depressive Disorder. Treatments include cognitive behavioral therapy (CBT), antidepressants (SSRIs), and lifestyle changes. |
+| **Claude**  | Symptoms may indicate depression or chronic fatigue syndrome. Recommends psychiatric consultation, therapy, and SSRIs.                                |
+| **Gemini**  | Suggests Major Depression or Dysthymia. Recommends SSRIs and counseling.                                                                              |
+
 
 
 | **AI Tool** | **Response to Tabular Format Prompt**                                   |
@@ -104,6 +106,7 @@ Prompt:
 ```
 import openai
 import requests
+import pandas as pd
 
 # API keys (replace with your actual keys)
 CHATGPT_API_KEY = "your_openai_api_key"
@@ -141,44 +144,92 @@ def get_gemini_response(prompt):
     return response.json().get('text', '')
 
 # Example Prompts
-empathy_prompt = "I’ve been feeling very anxious, having trouble sleeping, and feel overwhelmed most of the time. What should I do?"
-tabular_prompt = "Symptom: Trouble Sleeping - High, Appetite Loss - Medium, Feeling Hopeless - High. What mental health issue is likely and what can be done?"
+
+# Straightforward Prompt
+straightforward_prompt = "List the possible medical conditions associated with the following symptoms: persistent sadness, low energy, insomnia, and lack of focus for more than two weeks. Also suggest standard treatments."
+
+# Tabular Format Prompt
+tabular_prompt = """
+| Symptom          | Severity |
+| ---------------- | -------- |
+| Trouble Sleeping | High     |
+| Appetite Loss    | Medium   |
+| Feeling Hopeless | High     |
+
+Based on this table, what mental health concern might this suggest, and what steps should be taken?
+"""
+
+# Fill-in-the-Blank Prompt
 fill_blank_prompt = "Someone who feels anxious and unable to focus due to constant overthinking is likely experiencing ______."
 
-# Get responses
-chatgpt_1 = get_chatgpt_response(empathy_prompt)
-claude_1 = get_claude_response(empathy_prompt)
-gemini_1 = get_gemini_response(empathy_prompt)
+# Get responses for each prompt
+chatgpt_straightforward = get_chatgpt_response(straightforward_prompt)
+claude_straightforward = get_claude_response(straightforward_prompt)
+gemini_straightforward = get_gemini_response(straightforward_prompt)
 
-print("ChatGPT:", chatgpt_1)
-print("Claude:", claude_1)
-print("Gemini:", gemini_1)
+chatgpt_tabular = get_chatgpt_response(tabular_prompt)
+claude_tabular = get_claude_response(tabular_prompt)
+gemini_tabular = get_gemini_response(tabular_prompt)
+
+chatgpt_fill_blank = get_chatgpt_response(fill_blank_prompt)
+claude_fill_blank = get_claude_response(fill_blank_prompt)
+gemini_fill_blank = get_gemini_response(fill_blank_prompt)
+
+# Print results for all prompts
+print("Straightforward Prompt Responses:")
+print("ChatGPT:", chatgpt_straightforward)
+print("Claude:", claude_straightforward)
+print("Gemini:", gemini_straightforward)
+
+print("\nTabular Format Prompt Responses:")
+print("ChatGPT:", chatgpt_tabular)
+print("Claude:", claude_tabular)
+print("Gemini:", gemini_tabular)
+
+print("\nFill-in-the-Blank Prompt Responses:")
+print("ChatGPT:", chatgpt_fill_blank)
+print("Claude:", claude_fill_blank)
+print("Gemini:", gemini_fill_blank)
+
+# Evaluation (assumed sample evaluation)
+evaluation_data = {
+    "AI Tool": ["ChatGPT", "Claude", "Gemini"],
+    "Accuracy": ["High", "Moderate", "High"],
+    "Coherence": ["High", "High", "Moderate"],
+    "Simplicity": ["User-friendly", "Clinical", "Concise"],
+    "User Experience": ["Good", "Detailed", "Efficient"]
+}
+
+df = pd.DataFrame(evaluation_data)
+print("\nEvaluation Results:")
+print(df)
+
 ```
 # Evaluation
 Python code evaluates the AI tools based on:
 
-| **Metric** | **Description**                                                       |
-| ---------- | --------------------------------------------------------------------- |
-| Empathy    | Measures emotional understanding and supportive tone.                 |
-| Clarity    | Assesses if the response is logically structured and easy to follow.  |
-| Simplicity | Evaluates if the suggestions are easy to understand for non-experts.  |
-| Relevance  | Checks if the response specifically addresses the prompt and context. |
+| **Metric**     | **Description**                                                                 |
+| -------------- | ------------------------------------------------------------------------------- |
+| **Accuracy**   | Measures how factually correct and medically sound the response is.             |
+| **Clarity**    | Assesses if the response is logically structured and easy to understand.        |
+| **Simplicity** | Evaluates whether the suggestions are concise and understandable to laypersons. |
+| **Relevance**  | Checks if the response directly addresses the given prompt and medical context. |
+
 
 
 python
 ```
-import pandas as pd
-
 evaluation_data = {
     "AI Tool": ["ChatGPT", "Claude", "Gemini"],
-    "Empathy": ["High", "Very High", "Moderate"],
-    "Clarity": ["High", "High", "Moderate"],
-    "Simplicity": ["Simple", "Warm but technical", "Concise"],
-    "Relevance": ["Excellent", "Contextual", "Accurate"]
+    "Accuracy": ["High", "Moderate", "High"],
+    "Coherence": ["High", "High", "Moderate"],
+    "Simplicity": ["User-friendly", "Clinical", "Concise"],
+    "User Experience": ["Good", "Detailed", "Efficient"]
 }
 
 df = pd.DataFrame(evaluation_data)
 print(df)
+
 ```
 ### Result Presentation
 | AI Tool | Empathy   | Clarity  | Simplicity         | Relevance  |
