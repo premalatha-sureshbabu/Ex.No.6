@@ -62,7 +62,6 @@ Analyze each response for empathy, simplicity, and helpfulness.
 Prompt:
 "List the possible medical conditions associated with the following symptoms: persistent sadness, low energy, insomnia, and lack of focus for more than two weeks. Also suggest standard treatments."
 
-
 2. Tabular Format Prompt
 
 | Symptom          | Severity |
@@ -88,11 +87,14 @@ Prompt:
 
 
 
+
 | **AI Tool** | **Response to Tabular Format Prompt**                                   |
 | ----------- | ----------------------------------------------------------------------- |
 | ChatGPT     | Signs of depression. Recommend clinical evaluation and talk therapy.    |
 | Claude      | Likely Major Depressive Disorder. Suggests immediate professional help. |
 | Gemini      | Possible clinical depression. Recommends CBT and lifestyle changes.     |
+
+
 
 
 | **AI Tool** | **Response to Fill-in-the-Blank Prompt** |
